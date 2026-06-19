@@ -2,8 +2,7 @@
 
 import { Resend } from 'resend';
 
-// Initialize inside the action execution loop so it never fails top-level builds
-export async function sendEmail(formData: FormData) {
+export async function sendContactEmail(formData: FormData) {
   const apiKey = process.env.RESEND_API_KEY;
   
   if (!apiKey) {
@@ -15,24 +14,27 @@ export async function sendEmail(formData: FormData) {
   
   const name = formData.get('name') as string;
   const email = formData.get('email') as string;
+  const inquiryType = formData.get('inquiryType') as string;
   const message = formData.get('message') as string;
 
   try {
     await resend.emails.send({
       from: 'onboarding@resend.dev',
-      to: 'your-email@example.com', // Change to your actual email destination
-      subject: `【ボドゲステーション】無料体験・見学の申し込み: ${name}様`,
-      text: `
-名前: ${name}
-メールアドレス: ${email}
-本文内容:
-${message}
-      `,
+      to: 'distor.mark.eliezar.magno@gmail.com',
+      subject: `【ボドゲステーション】お問い合わせ: ${name}様`,
+      html: `
+        <h2>新しいお問い合わせが入りました</h2>
+        <p><strong>お名前:</strong> ${name}</p>
+        <p><strong>メールアドレス:</strong> ${email}</p>
+        <p><strong>種別:</strong> ${inquiryType === 'trial' ? '無料体験・見学' : '一般質問'}</p>
+        <p><strong>本文:</strong></p>
+        <p style="white-space: pre-wrap;">${message}</p>
+      `
     });
 
     return { success: true };
   } catch (error: any) {
-    console.error("Resend delivery failed:", error);
-    return { success: false, error: error.message || "送信に失敗しました。" };
+    console.error("Resend delivery error:", error);
+    return { success: false, error: "メールの送信に失敗しました。" };
   }
 }
