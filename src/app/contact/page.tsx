@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from 'react';
-import { sendContactEmail } from '../actions';
+import { sendEmail } from '../actions/sendEmail';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -14,7 +14,7 @@ export default function ContactPage() {
     const formData = new FormData(e.currentTarget);
 
     startTransition(async () => {
-      const result = await sendContactEmail(formData);
+      const result = await sendEmail(formData);
       if (result.success) {
         setSubmitted(true);
       } else {
