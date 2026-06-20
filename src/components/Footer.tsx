@@ -43,7 +43,7 @@ export default function Footer() {
         {/* Bottom Banner */}
         <div className="border-t border-slate-900 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
           <p>&copy; {currentYear} ボドゲステーション. All rights reserved.</p>
-          <p className="tracking-wide">Next.js Framework Recreation</p>
+          <p className="tracking-wide">Mark Eliezar Magno Distor</p>
         </div>
       </div>
     </footer>
